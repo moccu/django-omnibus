@@ -1,0 +1,29 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: Verdana, Arial, sans-serif;
+	background: #45484d;
+	background: -moz-radial-gradient(center, ellipse cover,  #45484d 0%, #000000 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#45484d), color-stop(100%,#000000));
+	background: -webkit-radial-gradient(center, ellipse cover,  #45484d 0%,#000000 100%);
+	background: -o-radial-gradient(center, ellipse cover,  #45484d 0%,#000000 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  #45484d 0%,#000000 100%);
+	background: radial-gradient(ellipse at center,  #45484d 0%,#000000 100%);
+}
+
+.progress {
+	overflow: hidden;
+	margin: 0 0 1px 0;
+	padding: 2px;
+	width: 0%;
+	height: 12px;
+	font-size: 10px;
+	background: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+}

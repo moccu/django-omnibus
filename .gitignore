@@ -1,0 +1,9 @@
+*.pyc
+*.egg-info
+.DS_Store
+.cache
+.grunt
+.specsrunner.html
+node_modules
+db.sqlite3
+docs/build

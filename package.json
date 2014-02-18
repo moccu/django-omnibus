@@ -1,0 +1,48 @@
+{
+  "name": "django-omnibus",
+  "version": "0.0.1",
+  "description": "Django/JavaScript WebSocket Connections",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "keywords": [
+    "Websockets",
+    "Django",
+    "Python"
+  ],
+  "author": {
+    "name": "Moccu GmbH & Co. KG, Kreativagentur für digitale Medien",
+    "url": "http://www.moccu.com/"
+  },
+  "contributors": [
+    {
+      "name": "Stephan Jaekel",
+      "url": "https://github.com/stephrdev"
+    },
+    {
+      "name": "Norman Rusch",
+      "url": "https://github.com/schorfES"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-template-jasmine-requirejs": "git://github.com/schorfES/grunt-template-jasmine-requirejs.git",
+    "grunt-template-jasmine-istanbul": "~0.2.5",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-jasmine": "~0.5.2",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-jscs-checker": "~0.2.6",
+    "grunt-lintspaces": "~0.3.1",
+    "grunt-jsdoc": "~0.5.1",
+    "grunt-shell": "~0.6.4"
+  }
+}

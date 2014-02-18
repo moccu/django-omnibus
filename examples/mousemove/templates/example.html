@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	</head>
+	<body>
+		<dl>
+			<dt>Connected</dt>
+			<dd class="state connection">No</dd>
+			<dt>Identified</dt>
+			<dd class="state identification">No</dd>
+			<dt>Channel subscribed</dt>
+			<dd class="state channel">No</dd>
+		</dl>
+
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'omnibus/omnibus.js' %}"></script>
+		<script type="text/javascript">
+			(function() {
+				// Initialize connection:
+				var players = {};
+				var transport = WebSocket; //SockJS
+				var endpoint = '{{ OMNIBUS_ENDPOINT }}';
+				var options = {authToken: '{{ OMNIBUS_authToken }}'};
+				var connection = new Omnibus(transport, endpoint, options);
+				var channel = connection.openChannel('mousemoves');
+
+				// Add events on connection:
+				connection
+					.on(Omnibus.events.CONNECTION_CONNECTED, function(event) {
+						$('.connection').addClass('open').text('Yes');
+					})
+					.on(Omnibus.events.CONNECTION_AUTHENTICATED, function(event) {
+						$('.identification').addClass('open').text('Yes');
+					});
+
+				// Add events on channel:
+				channel
+					.on(Omnibus.events.CHANNEL_SUBSCRIBED, function(event) {
+						$('.channel').addClass('open').text('Yes');
+					})
+					.on('move', function (event) {
+						// handle mouse moves form other users...
+						var player = players[event.data.sender];
+
+						if (player === undefined) {
+							player = $('<div class="player" />').appendTo($('body'));
+							players[event.data.sender] = player;
+						}
+
+						player.css({
+							top: event.data.payload.top,
+							left: event.data.payload.left
+						});
+					})
+					.on('disconnect', function (event) {
+						var player = players[event.data.sender];
+						if (player !== undefined) {
+							player.remove();
+							players[event.data.sender] = undefined;
+							delete(players[event.data.sender]);
+						}
+					});
+
+				// Add mouse move event on window to send own mouse moves:
+				$('body').mousemove(function(e) {
+					channel.send('move', {top: e.pageY, left: e.pageX});
+				});
+			})();
+		</script>
+	</body>
+</html>

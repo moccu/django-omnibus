@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	</head>
+	<body>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'omnibus/omnibus.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Receiver.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Sender.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Manager.js' %}"></script>
+		<script type="text/javascript">
+				// Initialize connection:
+				var transport = WebSocket;
+				var endpoint = '{{ OMNIBUS_ENDPOINT }}';
+				var connection = new Omnibus(transport, endpoint);
+				var manager = new Manager(connection);
+				var body = document.getElementsByTagName('body')[0];
+
+				body.addEventListener('dragover', handleDrag, false);
+				body.addEventListener('drop', handleDrop, false);
+
+				function handleDrag(event) {
+					event.stopPropagation();
+					event.preventDefault();
+				}
+
+				function handleDrop(event) {
+					event.stopPropagation();
+					event.preventDefault();
+
+					if (event.dataTransfer.files.length > 0) {
+						manager.send(event.dataTransfer.files[0]);
+					}
+				}
+		</script>
+	</body>
+</html>
+

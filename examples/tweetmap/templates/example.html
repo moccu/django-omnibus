@@ -1,0 +1,51 @@
+{% load static %}
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	</head>
+	<body>
+		<div id="map-canvas"></div>
+
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<script type="text/javascript" src="{% static 'omnibus/omnibus.js' %}"></script>
+		<script type="text/javascript">
+			(function() {
+				// Initialize map.
+				var map = new google.maps.Map(
+					document.getElementById('map-canvas'),
+					{
+						zoom: 2,
+						center: new google.maps.LatLng(0, 0),
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					}
+				);
+
+				// Initialize connection:
+				var transport = WebSocket; //SockJS
+				var endpoint = '{{ OMNIBUS_ENDPOINT }}';
+				var options = {authToken: '{{ OMNIBUS_authToken }}'};
+				var connection = new Omnibus(transport, endpoint, options);
+				var channel = connection.openChannel('tweets');
+
+				// Add events on channel:
+				channel.on('tweet', function (event) {
+					var marker = new google.maps.Marker({
+						map: map,
+						position: new google.maps.LatLng(
+							event.data.payload.coordinates[1],
+							event.data.payload.coordinates[0]
+						),
+						title: event.data.payload.tweet_id
+					});
+
+					setTimeout(function () {
+						marker.setVisible(false);
+						marker = undefined;
+					}, 1000)
+				});
+			})();
+		</script>
+	</body>
+</html>
