@@ -3,6 +3,7 @@ import hmac
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils.encoding import force_bytes
 
 
 class NoOpAuthenticator(object):
@@ -81,7 +82,11 @@ class UserAuthenticator(object):
     @classmethod
     def get_auth_token(cls, user_id):
         # Generate an auth token for the user id of a connection.
-        return hmac.new(settings.SECRET_KEY, str(user_id), hashlib.sha1).hexdigest()
+        return hmac.new(
+            force_bytes(settings.SECRET_KEY),
+            force_bytes(user_id),
+            hashlib.sha1
+        ).hexdigest()
 
     @classmethod
     def validate_auth_token(cls, user_id, token):

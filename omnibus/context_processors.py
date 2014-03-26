@@ -1,5 +1,4 @@
-from django.http.request import split_domain_port
-
+from .compat import split_domain_port
 from .authenticators import UserAuthenticator
 from .settings import SERVER_HOST, SERVER_PORT, SERVER_BASE_URL, ENDPOINT_SCHEME
 

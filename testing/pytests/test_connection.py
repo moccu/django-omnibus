@@ -1,3 +1,5 @@
+import json
+
 import mock
 
 from omnibus.authenticators import NoOpAuthenticator
@@ -87,8 +89,11 @@ class TestConnection:
     def test_on_command_message_unkown(self):
         self.con.on_command_message('nocommand', 'test')
         assert self.con.send_mock.call_count == 1
-        assert self.con.send_mock.call_args[0] == (
-            '!nocommand:{"type": "nocommand", "payload": null, "success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'nocommand'
+        assert json.loads(args) == {'success': False, 'type': 'nocommand', 'payload': None}  # noqa
 
     def test_on_command_message_kown(self):
         self.con.on_command_message('testcommand', 'test')
@@ -137,8 +142,11 @@ class TestConnection:
         assert self.con.authenticator_class.authenticate.call_args[0] == (
             'test',)
         assert self.con.send_mock.call_count == 1
-        assert self.con.send_mock.call_args[0] == (
-            '!authenticate:{"type": "authenticate", "payload": null, "success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'authenticate'
+        assert json.loads(args) == {'success': False, 'type': 'authenticate', 'payload': None}  # noqa
 
     def test_authenticate_success(self):
         self.con.authenticator_class = mock.Mock()
@@ -147,8 +155,11 @@ class TestConnection:
         assert self.con.authenticator_class.authenticate.call_args[0] == (
             'test',)
         assert self.con.send_mock.call_count == 1
-        assert self.con.send_mock.call_args[0] == (
-            '!authenticate:{"type": "authenticate", "payload": null, "success": true}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'authenticate'
+        assert json.loads(args) == {'success': True, 'type': 'authenticate', 'payload': None}  # noqa
 
     def test_subscribe_already_subscribed(self):
         self.con.subscriber = mock.Mock()
@@ -156,9 +167,11 @@ class TestConnection:
 
         self.con.command_subscribe('mychan')
         assert self.con.pubsub.subscribe.call_count == 0
-        assert self.con.send_mock.call_args[0] == (
-            '!subscribe:{"type": "subscribe", "payload": {"channel": "mychan"}, '
-            '"success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'subscribe'
+        assert json.loads(args) == {'success': False, 'type': 'subscribe', 'payload': {'channel': 'mychan'}}  # noqa
 
     def test_subscribe_no_allowed(self):
         self.con.subscriber = mock.Mock()
@@ -169,9 +182,11 @@ class TestConnection:
         self.con.command_subscribe('mychan')
         assert self.con.pubsub.subscribe.call_count == 0
         assert self.con.authenticator.can_subscribe.call_count == 1
-        assert self.con.send_mock.call_args[0] == (
-            '!subscribe:{"type": "subscribe", "payload": {"channel": "mychan"}, '
-            '"success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'subscribe'
+        assert json.loads(args) == {'success': False, 'type': 'subscribe', 'payload': {'channel': 'mychan'}}  # noqa
 
     def test_subscribe_allowed(self):
         self.con.subscriber = mock.Mock()
@@ -192,9 +207,11 @@ class TestConnection:
 
         self.con.command_unsubscribe('mychan')
         assert self.con.pubsub.unsubscribe.call_count == 0
-        assert self.con.send_mock.call_args[0] == (
-            '!unsubscribe:{"type": "unsubscribe", "payload": {"channel": "mychan"}, '
-            '"success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'unsubscribe'
+        assert json.loads(args) == {'success': False, 'type': 'unsubscribe', 'payload': {'channel': 'mychan'}}  # noqa
 
     def test_unsubscribe_no_allowed(self):
         self.con.subscriber = mock.Mock()
@@ -205,9 +222,11 @@ class TestConnection:
         self.con.command_unsubscribe('mychan')
         assert self.con.pubsub.unsubscribe.call_count == 0
         assert self.con.authenticator.can_unsubscribe.call_count == 1
-        assert self.con.send_mock.call_args[0] == (
-            '!unsubscribe:{"type": "unsubscribe", "payload": {"channel": "mychan"}, '
-            '"success": false}',)
+
+        msg = self.con.send_mock.call_args[0]
+        command, args = msg[0][1:].split(':', 1)
+        assert command == 'unsubscribe'
+        assert json.loads(args) == {'success': False, 'type': 'unsubscribe', 'payload': {'channel': 'mychan'}}  # noqa
 
     def test_unsubscribe_allowed(self):
         self.con.subscriber = mock.Mock()

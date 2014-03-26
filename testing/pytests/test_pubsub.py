@@ -1,3 +1,5 @@
+import json
+
 import mock
 import pytest
 import zmq
@@ -73,9 +75,11 @@ class TestPubSub:
             'test1', 'test2', {'test3': 'test4'}, 'test5') is True
 
         assert self.context.socket.return_value.send_unicode.call_count == 1
-        assert self.context.socket.return_value.send_unicode.call_args[0] == (
-            'test1:{"type": "test2", "sender": "test5", "payload": {"test3": '
-            '"test4"}}',)
+
+        msg = self.context.socket.return_value.send_unicode.call_args[0]
+        command, args = msg[0].split(':', 1)
+        assert command == 'test1'
+        assert json.loads(args) == {'type': 'test2', 'sender': 'test5', 'payload': {'test3': 'test4'}}  # noqa
 
     @mock.patch('omnibus.pubsub.ZMQStream')
     def test_get_subscriber(self, stream_mock):

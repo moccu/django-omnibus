@@ -50,7 +50,7 @@ class PubSub(object):
                     connection.bind(address)
                 else:
                     connection.connect(address)
-            except ZMQError, e:
+            except ZMQError as e:
                 raise ex.OmnibusException(e)
 
             # Remember connection in central dict.
@@ -68,7 +68,7 @@ class PubSub(object):
         try:
             publisher = self.get_connection(zmq.PUB, PUBLISHER_ADDRESS)
             publisher.send_unicode(msg)
-        except ZMQError, e:
+        except ZMQError as e:
             raise ex.OmnibusPublisherException(e)
 
         return True
@@ -91,7 +91,7 @@ class PubSub(object):
                     'payload': payload
                 })
             ))
-        except (TypeError, ValueError), e:
+        except (TypeError, ValueError) as e:
             raise ex.OmnibusDataException(e)
 
     # SUBSCRIBING ------------------------------------------------------------
@@ -110,7 +110,7 @@ class PubSub(object):
 
             subscriber = ZMQStream(subscriber_socket)
             subscriber.on_recv(callback)
-        except ZMQError, e:
+        except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
 
         # Initialize channel list
@@ -126,7 +126,7 @@ class PubSub(object):
             subscriber_socket = subscriber.socket
             subscriber.close()
             subscriber_socket.close()
-        except ZMQError, e:
+        except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
 
         return True
@@ -142,7 +142,7 @@ class PubSub(object):
         try:
             subscriber.setsockopt(zmq.SUBSCRIBE, channel)
             subscriber.channels.append(channel)
-        except ZMQError, e:
+        except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
 
         return True
@@ -158,7 +158,7 @@ class PubSub(object):
         try:
             subscriber.setsockopt(zmq.UNSUBSCRIBE, channel)
             subscriber.channels.remove(channel)
-        except ZMQError, e:
+        except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
 
         return True
@@ -194,7 +194,7 @@ class PubSub(object):
                 instances['bridge'].on_recv(
                     lambda msg: instances['out'].send(msg[0]))
 
-            except ZMQError, e:
+            except ZMQError as e:
                 raise ex.OmnibusException(e)
 
             self.bridges[in_address][in_mode][out_address][out_mode] = instances
