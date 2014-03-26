@@ -13,7 +13,7 @@ requirements file.
 
 .. code-block:: terminal
 
-    $ pip install -r resources/requirements-develop.txt
+    $ pip install -e .[tests]
 
 Testing the code
 ````````````````
