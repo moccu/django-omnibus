@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class TweetPublisher(TwythonStreamer):
+
     def on_success(self, data):
         if 'coordinates' in data and data['coordinates']:
             tweet = {
@@ -23,6 +24,7 @@ class TweetPublisher(TwythonStreamer):
 
 
 class Command(BaseCommand):
+
     def handle(self, *args, **kwargs):
         assert all([
             settings.TWITTER_APP_TOKEN, settings.TWITTER_APP_SECRET,
