@@ -18,4 +18,4 @@ script:
   - tox -e $TOX_ENV
 before_install:
   - sudo apt-get update
-  - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev libsodium-dev; fi
+  - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
