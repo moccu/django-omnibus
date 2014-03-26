@@ -18,6 +18,7 @@ test_requires = [
     'pytest-pep8>=1.0.5',
     'pytest-django>=2.6',
     'mock==1.0.1',
+    'pep8==1.4.6'
 ]
 
 
