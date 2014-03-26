@@ -7,7 +7,6 @@ include setup.cfg
 
 recursive-include docs **
 recursive-include omnibus/static/omnibus/*.js
-recursive-include anylink/static/anylink *.js
 
 recursive-exclude * *.pyc
 recursive-exclude * *.pyo
