@@ -3,7 +3,7 @@
 Django/JavaScript WebSocket Connections.
 
 [![Coverage Status](https://coveralls.io/repos/moccu/django-omnibus/badge.png)](https://coveralls.io/r/moccu/django-omnibus)
-[![Travis Status](https://travis-ci.org/moccu/django-omnibus.png?branch=master)](https://travis-ci.org/muffins-on-dope/bakery)
+[![Travis Status](https://travis-ci.org/moccu/django-omnibus.png?branch=master)](https://travis-ci.org/moccu/django-omnibus)
 
 ## What is django-omnibus
 
