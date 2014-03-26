@@ -2,6 +2,9 @@
 
 Django/JavaScript WebSocket Connections.
 
+[![Coverage Status](https://coveralls.io/repos/moccu/django-omnibus/badge.png)](https://coveralls.io/r/moccu/django-omnibus)
+[![Travis Status](https://travis-ci.org/moccu/django-omnibus.png?branch=master)](https://travis-ci.org/muffins-on-dope/bakery)
+
 ## What is django-omnibus
 
 *django-omnibus* is a Django library which helps to create websocket-based
