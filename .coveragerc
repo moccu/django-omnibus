@@ -2,4 +2,4 @@
 branch = True
 omit = testing/*
 source = omnibus/
-include omnibus/*
+include = omnibus/*
