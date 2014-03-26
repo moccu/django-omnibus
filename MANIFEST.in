@@ -1,0 +1,15 @@
+include README.rst
+include LICENSE
+include *.py
+include tox.ini
+include pytest.ini
+include setup.cfg
+
+recursive-include docs **
+recursive-include omnibus/static/omnibus/*.js
+recursive-include anylink/static/anylink *.js
+
+recursive-exclude * *.pyc
+recursive-exclude * *.pyo
+
+prune docs/_build
