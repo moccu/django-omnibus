@@ -19,3 +19,7 @@ script:
 before_install:
   - sudo apt-get update
   - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
+after_success:
+  - coverage report
+  - pip install --quiet python-coveralls
+  - coveralls
