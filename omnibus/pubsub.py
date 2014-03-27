@@ -1,14 +1,27 @@
 import json
+import logging
 
 import zmq
 from zmq.error import ZMQError
 from zmq.eventloop.zmqstream import ZMQStream
-from zmq.eventloop import ioloop as zmq_ioloop
+from zmq.eventloop import ioloop
+
+from django.utils.encoding import force_bytes
 
 from . import exceptions as ex
 from .settings import (
     SUBSCRIBER_ADDRESS, PUBLISHER_ADDRESS,
     DIRECTOR_SUBSCRIBER_ADDRESS, DIRECTOR_PUBLISHER_ADDRESS)
+
+
+logger = logging.getLogger(__name__)
+
+
+LOG_LEVELS = {
+    'debug': logger.debug,
+    'info': logger.info,
+    'error': logger.error,
+}
 
 
 class PubSub(object):
@@ -19,21 +32,14 @@ class PubSub(object):
     connections = None
     bridges = None
 
-    def __init__(self):
+    def __init__(self, loop=None):
         self.context = zmq.Context()
         self.connections = {}
         self.bridges = {}
+        self.loop = loop or ioloop.IOLoop.instance()
 
-    def install_ioloop(self):
-        """
-        `install_ioloop` is used to activate the zmq stream ioloop.
-        We have to make sure it its called only once.
-        """
-        if not self.ioloop_installed:
-            zmq_ioloop.install()
-            self.ioloop_installed = True
-
-        return self.ioloop_installed
+    def log(self, level, message):
+        LOG_LEVELS[level](u'[%s] %s' % (id(self), message))
 
     # CONNECTION -------------------------------------------------------------
 
@@ -66,6 +72,7 @@ class PubSub(object):
         the default one.
         """
         try:
+            self.log('debug', 'send {0} to {1}'.format(msg, PUBLISHER_ADDRESS))
             publisher = self.get_connection(zmq.PUB, PUBLISHER_ADDRESS)
             publisher.send_unicode(msg)
         except ZMQError as e:
@@ -73,16 +80,24 @@ class PubSub(object):
 
         return True
 
-    def publish(self, channel, payload_type, payload={}, sender=None):
+    def publish(self, channel, payload_type, payload=None, sender=None):
         """
         `publish` is a highlevel method to publish stuff. It handles the json
         converting and ensures the payload has the correct data type.
         """
+        if payload is None:
+            payload = {}
+
         if not isinstance(payload, dict):
             raise ex.OmnibusDataException(
                 'Invalid payload, needs to be a dict: {0}'.format(type(payload)))
 
         try:
+            self.log(
+                'debug',
+                'publish to {0} (payload_type:{1}, payload:{2}, sender:{3})'.format(
+                    channel, payload_type, payload, sender))
+
             return self.send(u'{0}:{1}'.format(
                 channel,
                 json.dumps({
@@ -108,7 +123,7 @@ class PubSub(object):
             subscriber_socket = self.context.socket(zmq.SUB)
             subscriber_socket.connect(address)
 
-            subscriber = ZMQStream(subscriber_socket)
+            subscriber = ZMQStream(subscriber_socket, io_loop=self.loop)
             subscriber.on_recv(callback)
         except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
@@ -140,7 +155,7 @@ class PubSub(object):
             return False
 
         try:
-            subscriber.setsockopt(zmq.SUBSCRIBE, channel)
+            subscriber.setsockopt(zmq.SUBSCRIBE, force_bytes(channel))
             subscriber.channels.append(channel)
         except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
@@ -156,7 +171,7 @@ class PubSub(object):
             return False
 
         try:
-            subscriber.setsockopt(zmq.UNSUBSCRIBE, channel)
+            subscriber.setsockopt(zmq.UNSUBSCRIBE, force_bytes(channel))
             subscriber.channels.remove(channel)
         except ZMQError as e:
             raise ex.OmnibusSubscriberException(e)
@@ -181,7 +196,7 @@ class PubSub(object):
                     instances['in'].bind(in_address)
                 elif in_mode == self.CONNECT:
                     instances['in'].connect(in_address)
-                instances['in'].setsockopt(zmq.SUBSCRIBE, '')
+                instances['in'].setsockopt(zmq.SUBSCRIBE, b'')
 
                 instances['out'] = self.context.socket(zmq.PUB)
                 if out_mode == self.BIND:
@@ -190,9 +205,8 @@ class PubSub(object):
                     instances['out'].connect(out_address)
 
                 # Transfer data from subscriber to publisher.
-                instances['bridge'] = ZMQStream(instances['in'])
-                instances['bridge'].on_recv(
-                    lambda msg: instances['out'].send(msg[0]))
+                instances['bridge'] = ZMQStream(instances['in'], io_loop=self.loop)
+                instances['bridge'].on_recv(lambda msg: instances['out'].send(msg[0]))
 
             except ZMQError as e:
                 raise ex.OmnibusException(e)

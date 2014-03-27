@@ -1,4 +1,6 @@
 import json
+import time
+import multiprocessing
 
 import mock
 import pytest
@@ -8,9 +10,11 @@ from omnibus.exceptions import (
     OmnibusException, OmnibusPublisherException, OmnibusDataException,
     OmnibusSubscriberException)
 from omnibus.pubsub import PubSub
+from omnibus import api
 
 
 class TestPubSub:
+
     @mock.patch('omnibus.pubsub.zmq.Context')
     def setup(self, cm):
         self.pubsub = PubSub()
@@ -20,15 +24,6 @@ class TestPubSub:
         assert isinstance(self.pubsub.context, mock.Mock)
         assert self.pubsub.connections == {}
         assert self.pubsub.bridges == {}
-
-    @mock.patch('omnibus.pubsub.zmq_ioloop.install')
-    def test_install_ioloop(self, install_mock):
-        self.pubsub.install_ioloop() is True
-        assert install_mock.call_count == 1
-
-        # Dont call install_ioloop again
-        self.pubsub.install_ioloop() is True
-        assert install_mock.call_count == 1
 
     def test_get_connection(self):
         con = self.pubsub.get_connection(zmq.PUB, 'inproc://test')
@@ -152,7 +147,7 @@ class TestPubSub:
         assert self.pubsub.subscribe(subscriber, 'mychan') is True
 
         assert 'mychan' in subscriber.channels
-        assert subscriber.setsockopt.call_args[0] == (zmq.SUBSCRIBE, 'mychan')
+        assert subscriber.setsockopt.call_args[0] == (zmq.SUBSCRIBE, b'mychan')
 
     def test_unsubscribe_not_subscribed(self):
         subscriber = mock.Mock()
@@ -175,7 +170,7 @@ class TestPubSub:
         assert self.pubsub.unsubscribe(subscriber, 'mychan') is True
 
         assert 'mychan' not in subscriber.channels
-        assert subscriber.setsockopt.call_args[0] == (zmq.UNSUBSCRIBE, 'mychan')
+        assert subscriber.setsockopt.call_args[0] == (zmq.UNSUBSCRIBE, b'mychan')
 
     def test_init_bridge_invalid_modes(self):
         # Invalid in and out
@@ -256,3 +251,34 @@ class TestPubSub:
             'connect', None, 'bind', 'tcp://127.0.0.1:4243')
         assert init_mock.call_args_list[1][0] == (
             'bind', 'tcp://127.0.0.1:4244', 'connect', None)
+
+
+class TestRealPubSub:
+
+    def test_basic_pubsub(self, settings):
+        bus = PubSub()
+
+        # Enable director to allow receiving messages
+        bus.init_director()
+
+        messages = []
+
+        def callback(msg):
+            messages.append(msg)
+            bus.loop.stop()
+
+        def send_message():
+            api.publish('channel', 'type', {'test': 'works!'})
+            time.sleep(1)
+            api.publish('channel', 'type', {'test': 'works!'})
+
+        subscriber = bus.get_subscriber(callback)
+        assert bus.subscribe(subscriber, 'channel')
+
+        proc = multiprocessing.Process(target=send_message)
+        proc.start()
+
+        bus.loop.start()
+
+        proc.join()
+        assert len(messages)

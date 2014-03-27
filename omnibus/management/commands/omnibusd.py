@@ -17,7 +17,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Initialize pubsub helper.
         pubsub = PubSub()
-        pubsub.install_ioloop()
 
         if DIRECTOR_ENABLED:
             logger.info('Starting director.')
