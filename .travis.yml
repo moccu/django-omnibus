@@ -20,6 +20,6 @@ before_install:
   - sudo apt-get update
   - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
 after_success:
-  - pip install --quiet python-coveralls coverage
+  - pip install "coveralls==0.4.1" coverage
   - coverage report
   - coveralls debug
