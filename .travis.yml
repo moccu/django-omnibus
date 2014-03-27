@@ -22,4 +22,4 @@ before_install:
 after_success:
   - pip install --quiet python-coveralls coverage
   - coverage report
-  - coveralls
+  - coveralls debug
