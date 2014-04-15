@@ -1,5 +1,7 @@
 [run]
 branch = True
-omit = testing/*
 source = omnibus/
+
+[report]
 include = omnibus/*
+omit = testing/*
