@@ -4,6 +4,9 @@ env:
   - TOX_ENV=py33-1.7.x
   - TOX_ENV=py33-1.6.x
   - TOX_ENV=py33-1.5.x
+  - TOX_ENV=py34-1.7.x
+  - TOX_ENV=py34-1.6.x
+  - TOX_ENV=py34-1.5.x
   - TOX_ENV=py27-1.7.x
   - TOX_ENV=py27-1.6.x
   - TOX_ENV=py27-1.5.x
