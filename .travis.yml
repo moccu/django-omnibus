@@ -6,14 +6,11 @@ python:
   - "3.4"
   - "pypy"
 env:
-  - DJANGO_VERSION=master
   - DJANGO_VERSION=1.7.x
   - DJANGO_VERSION=1.6.x
   - DJANGO_VERSION=1.5.x
 matrix:
   exclude:
-   - python: "2.6"
-     env: DJANGO_VERSION=master
    - python: "2.6"
      env: DJANGO_VERSION=1.7.x
 install:
