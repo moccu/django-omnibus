@@ -1,24 +1,25 @@
 language: python
-python: 2.7
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "pypy"
 env:
-  - TOX_ENV=py33-1.7.x
-  - TOX_ENV=py33-1.6.x
-  - TOX_ENV=py33-1.5.x
-  - TOX_ENV=py34-1.7.x
-  - TOX_ENV=py34-1.6.x
-  - TOX_ENV=py34-1.5.x
-  - TOX_ENV=py27-1.7.x
-  - TOX_ENV=py27-1.6.x
-  - TOX_ENV=py27-1.5.x
-  - TOX_ENV=py26-1.6.x
-  - TOX_ENV=py26-1.5.x
-  - TOX_ENV=pypy-1.5.x
-  - TOX_ENV=pypy-1.6.x
-  - TOX_ENV=pypy-1.7.x
+  - DJANGO_VERSION=master
+  - DJANGO_VERSION=1.7.x
+  - DJANGO_VERSION=1.6.x
+  - DJANGO_VERSION=1.5.x
+matrix:
+  exclude:
+   - python: "2.6"
+     env: DJANGO_VERSION=master
+   - python: "2.6"
+     env: DJANGO_VERSION=1.7.x
 install:
   - pip install tox
 script:
-  - tox -e $TOX_ENV
+  - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
 before_install:
   - sudo apt-get update
   - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
