@@ -16,7 +16,7 @@ matrix:
 install:
   - pip install tox
 script:
-  - tox -e "py$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
+  - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
 before_install:
   - sudo apt-get update
   - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
