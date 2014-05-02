@@ -19,7 +19,7 @@ script:
   - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
 before_install:
   - sudo apt-get update
-  - if [[ $TOX_ENV == pypy* ]]; then sudo apt-get install -qq libzmq3-dev; fi
+  - if [[ "$TRAVIS_PYTHON_VERSION" == pypy ]]; then sudo apt-get install -qq libzmq3-dev; fi
 after_success:
   - pip install "coveralls==0.4.1" coverage
   - coverage report
