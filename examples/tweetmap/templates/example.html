@@ -25,7 +25,7 @@
 				// Initialize connection:
 				var transport = WebSocket; //SockJS
 				var endpoint = '{{ OMNIBUS_ENDPOINT }}';
-				var options = {authToken: '{{ OMNIBUS_authToken }}'};
+				var options = {authToken: '{{ OMNIBUS_AUTH_TOKEN }}'};
 				var connection = new Omnibus(transport, endpoint, options);
 				var channel = connection.openChannel('tweets');
 
