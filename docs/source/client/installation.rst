@@ -98,7 +98,7 @@ of code
 .. code-block:: javascript
 
     var channel = connection.openChannel('ping-channel');
-    channel.sendEvent('ping-event', {
+    channel.send('ping-event', {
         message: 'hello world'
     });
 
