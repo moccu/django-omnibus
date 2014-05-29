@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 try:
     from django.contrib.auth import get_user_model
     User = get_user_model()
-except Import Error:
+except ImportError:
     from django.contrib.auth.models import User
 
 
