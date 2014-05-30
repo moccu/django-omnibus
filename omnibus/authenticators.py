@@ -73,7 +73,7 @@ class UserAuthenticator(object):
                 # Fall back to directly importing User
                 # for backwards compatibility
                 from django.contrib.auth.models import User
-                
+
             # We validated the auth_token, fetch user from db for further use.
             try:
                 user = User.objects.get(pk=int(user_id), is_active=True)
