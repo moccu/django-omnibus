@@ -2,7 +2,6 @@ import hashlib
 import hmac
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.utils.encoding import force_bytes
 
 
@@ -67,6 +66,14 @@ class UserAuthenticator(object):
             if not cls.validate_auth_token(user_id, token):
                 return None
 
+            try:
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+            except ImportError:
+                # Fall back to directly importing User
+                # for backwards compatibility
+                from django.contrib.auth.models import User
+                
             # We validated the auth_token, fetch user from db for further use.
             try:
                 user = User.objects.get(pk=int(user_id), is_active=True)
