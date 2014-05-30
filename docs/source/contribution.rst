@@ -11,7 +11,7 @@ Django Code
 To install all requirements for development and testing, you can use the provided
 requirements file.
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ pip install -e .[tests]
 
@@ -24,13 +24,13 @@ on every run.
 
 This is how you execute the tests and checks from the repository root directory.
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ py.test
 
 If you want to generate a coverage report, you can use the following command.
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ py.test --cov=omnibus --cov-report=html .
 
@@ -43,7 +43,7 @@ in the ``docs/source`` folder.
 To update/generate the html output of the documentation, use the following
 command inside the ``docs`` folder.
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ make html
 
@@ -74,7 +74,7 @@ please commit only the `src`-files.
 
 To run the build process you can call the grunt taskrunner using:
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ grunt
 
@@ -89,7 +89,7 @@ The client code is fully documented using JSDoc_. To get an overview about the
 classes and functions generate your own `JSDoc running the following command.
 The generated documentation will open immediately.
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ grunt doc
 
@@ -106,13 +106,13 @@ To validate the code according our JSHint_, JSCS_ and indentation rules run:
 .. _JSHint: http://www.jshint.com/about/
 .. _JSCS: https://github.com/mdevils/node-jscs
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ grunt validate
 
 To finally test your JavaScript code run:
 
-.. code-block:: terminal
+.. code-block:: bash
 
     $ grunt test
 
