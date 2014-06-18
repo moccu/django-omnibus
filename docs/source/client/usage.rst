@@ -109,7 +109,7 @@ There are some functions to interact with the eventbus sytem:
 
 * ``on(eventName, eventHandler)``, registers an eventHandler to a particular eventName. This function is chainable to call multiple functions on an instance of the eventbus. To handle all events triggered through an eventbus instance by a single eventHandler use the value ``'*'`` as wildcard eventName.
 * ``off(eventName, eventHandler)``, removes registered eventHandler(s) from the eventbus instance. This function is chainable to call multiple functions on an instance of the eventbus. When called without any parameters all registered eventHandlers are removed. When called with eventName parameter all registered eventHandlers according this particular eventName are removed. When called with eventName and a reference to an eventHandler function this given handler for the particular eventName will be removed.
-* ``trigger(eventName, eventData)``, triggers all registered eventHandlers on a particular eventName. EventData can be send through each call to each handler. This function is chainable to call multiple functions on an instance of the eventbus. All eventHandlers registered with the wildcard eventName ``'*'` will be triggered as well.
+* ``trigger(eventName, eventData)``, triggers all registered eventHandlers on a particular eventName. EventData can be send through each call to each handler. This function is chainable to call multiple functions on an instance of the eventbus. All eventHandlers registered with the wildcard eventName ``'*'`` will be triggered as well.
 
 All predefined event types are listet through the ``Omnibus.events`` property.
 The containing constants are prefixed with ``CONNECTION`` or ``CHANNEL`` to

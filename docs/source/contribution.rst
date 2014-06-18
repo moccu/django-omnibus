@@ -86,7 +86,7 @@ Generate a documentation
 ````````````````````````
 
 The client code is fully documented using JSDoc_. To get an overview about the
-classes and functions generate your own `JSDoc running the following command.
+classes and functions generate your own JSDoc running the following command.
 The generated documentation will open immediately.
 
 .. code-block:: bash

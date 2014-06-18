@@ -87,9 +87,7 @@ above, you can follow these steps to setup a connection
 
 After you've created an instance, it will automatically open a connection and
 identify itself through them. For more informations about the connection
-instance visit the usage_ site.
-
-.. _usage: _client-usage
+instance visit the :ref:`usage <client-usage>` site.
 
 The communication between client and server takes place through a channel. You
 can easily open a channel instance and send a *ping* using the following lines
@@ -103,4 +101,4 @@ of code
     });
 
 For more information about the use of a channel instance take a look at the
-usage_ site or visit the examples.
+:ref:`usage <client-usage>` site or visit the examples.
