@@ -35,6 +35,10 @@ class Command(BaseCommand):
         app = webapp_factory(connection_factory(authenticator_factory(), pubsub))
         app.listen(SERVER_PORT)
 
-        # Go, run!
-        logger.info('Starting omnibusd.')
-        ioloop.IOLoop.instance().start()
+        loop = ioloop.IOLoop().instance()
+        try:
+            logger.info('Starting omnibusd.')
+            loop.start()
+        except KeyboardInterrupt:
+            logger.info('Received KeyboardInterrup, stopping omnibusd.')
+            loop.stop()
