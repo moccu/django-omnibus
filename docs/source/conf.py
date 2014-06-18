@@ -1,5 +1,5 @@
 import os
-
+import pkg_resources
 
 extensions = []
 
@@ -11,8 +11,9 @@ master_doc = 'index'
 project = u'django-omnibus'
 copyright = u'2014, Stephan Jaekel, Norman Rusch'
 
-version = '0.0.1'
-release = '0.0.1'
+dist = pkg_resources.get_distribution('django_omnibus')
+version = dist.version
+release = dist.version
 
 exclude_patterns = ['build']
 

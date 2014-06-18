@@ -1,1 +1,3 @@
-VERSION = '0.0.1'
+import pkg_resources
+
+VERSION = pkg_resources.get_distribution('django_omnibus').version
