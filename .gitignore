@@ -1,9 +1,15 @@
+build
+dist
 *.pyc
 *.egg-info
+junit-*.xml
 .DS_Store
 .cache
+.coverage
+coverage.xml
 .grunt
 .specsrunner.html
 node_modules
 db.sqlite3
 docs/build
+.tox
