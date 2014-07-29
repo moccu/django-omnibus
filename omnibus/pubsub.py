@@ -72,7 +72,7 @@ class PubSub(object):
         the default one.
         """
         try:
-            self.log('debug', 'send {0} to {1}'.format(msg, PUBLISHER_ADDRESS))
+            self.log('debug', u'send {0} to {1}'.format(msg, PUBLISHER_ADDRESS))
             publisher = self.get_connection(zmq.PUB, PUBLISHER_ADDRESS)
             publisher.send_unicode(msg)
         except ZMQError as e:
@@ -95,7 +95,7 @@ class PubSub(object):
         try:
             self.log(
                 'debug',
-                'publish to {0} (payload_type:{1}, payload:{2}, sender:{3})'.format(
+                u'publish to {0} (payload_type:{1}, payload:{2}, sender:{3})'.format(
                     channel, payload_type, payload, sender))
 
             return self.send(u'{0}:{1}'.format(
