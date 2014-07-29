@@ -79,7 +79,7 @@ above, you can follow these steps to setup a connection
     // Define connection options:
     var options = {
         // Get the omnibus authentication token:
-        auth_token: '{{ OMNIBUS_AUTH_TOKEN }}'
+        authToken: '{{ OMNIBUS_AUTH_TOKEN }}'
     };
 
     // Create a new connection using transport, endpoint and options
