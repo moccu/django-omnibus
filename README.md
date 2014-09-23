@@ -20,7 +20,7 @@ Some use cases could be:
 
 *django-omnibus* is quite extensible. The connection handler, the
 Tornado web application and the authenticator can be replaced by just changing
-the setting.
+a setting.
 
 For browser compatibility *django-omnibus* also supports
 [SockJS](https://github.com/sockjs/sockjs-client) (which provides fallbacks for
