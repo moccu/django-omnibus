@@ -7,6 +7,7 @@ from zmq.eventloop.zmqstream import ZMQStream
 from zmq.eventloop import ioloop
 
 from django.utils.encoding import force_bytes
+from django.core.serializers.json import DjangoJSONEncoder
 
 from . import exceptions as ex
 from .settings import (
@@ -104,7 +105,7 @@ class PubSub(object):
                     'sender': sender,
                     'type': payload_type,
                     'payload': payload
-                })
+                }, cls=DjangoJSONEncoder)
             ))
         except (TypeError, ValueError) as e:
             raise ex.OmnibusDataException(e)
