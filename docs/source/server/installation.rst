@@ -43,7 +43,7 @@ To use SockJS as the underlying transport layer, you have to change some bits.
 
 Install `tornado-sockjs` using your preffered Python package installer::
 
-    pip install tornado-sockjs
+    pip install sockjs-tornado
 
 Change the following configurations in your Django settings:
 

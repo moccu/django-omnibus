@@ -66,7 +66,7 @@ channel *foo*, the subscription would look like this:
 
 .. code-block:: javascript
 
-    var foo = connection.openConnection('foo');
+    var foo = connection.openChannel('foo');
 
 To send a message through this channel you call:
 
