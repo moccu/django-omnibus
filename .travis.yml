@@ -34,9 +34,6 @@ after_success:
 
 notifications:
   hipchat:
-
-notifications:
-  hipchat:
     on_success: always
     rooms:
       secure: VZXe67xmS3eI7aPuBJjKkKPbR+H0yCYLdpsZ2g45vUy823V1ROygxb8Io5NPqlDF/zFHvdSHVtpxz5+0gw9JumbN606dh50BD/eMUjgTyBgx6MALzg37rznQml2ssmyhJstwsOCaIgRkeu1I/m56JQn4UfeKBTmyZRVG/Cj1gsA=
