@@ -1,26 +1,38 @@
 language: python
+
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "pypy"
+  - '2.6'
+  - '2.7'
+  - '3.3'
+  - '3.4'
+  - pypy
+
 env:
   - DJANGO_VERSION=1.7.x
   - DJANGO_VERSION=1.6.x
   - DJANGO_VERSION=1.5.x
+
 matrix:
   exclude:
-   - python: "2.6"
-     env: DJANGO_VERSION=1.7.x
+  - python: '2.6'
+    env: DJANGO_VERSION=1.7.x
+
 install:
   - pip install tox
+
 script:
   - tox -e "$TRAVIS_PYTHON_VERSION-$DJANGO_VERSION"
+
 before_install:
   - sudo apt-get update
   - if [[ "$TRAVIS_PYTHON_VERSION" == pypy ]]; then sudo apt-get install -qq libzmq3-dev; fi
+
 after_success:
   - pip install "coveralls==0.4.1" coverage
   - coverage report
   - coveralls
+
+notifications:
+  hipchat:
+    rooms:
+      secure: VZXe67xmS3eI7aPuBJjKkKPbR+H0yCYLdpsZ2g45vUy823V1ROygxb8Io5NPqlDF/zFHvdSHVtpxz5+0gw9JumbN606dh50BD/eMUjgTyBgx6MALzg37rznQml2ssmyhJstwsOCaIgRkeu1I/m56JQn4UfeKBTmyZRVG/Cj1gsA=
