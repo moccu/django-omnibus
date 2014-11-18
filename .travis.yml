@@ -38,5 +38,5 @@ notifications:
     rooms:
       secure: VZXe67xmS3eI7aPuBJjKkKPbR+H0yCYLdpsZ2g45vUy823V1ROygxb8Io5NPqlDF/zFHvdSHVtpxz5+0gw9JumbN606dh50BD/eMUjgTyBgx6MALzg37rznQml2ssmyhJstwsOCaIgRkeu1I/m56JQn4UfeKBTmyZRVG/Cj1gsA=
     template:
-      - "<strong>%{repository_name}</strong> <a href='%{build_url}'>build %{build_number}</a> (%{branch}) passes with flying colours. (%{duration})"
+      - "<strong>%{repository_name}</strong> <a href='%{build_url}'>build %{build_number}</a> (%{branch}) %{message}. (%{duration})"
     format: html
