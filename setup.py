@@ -85,7 +85,7 @@ setup(
     version='0.1.0',
     description='Django/JavaScript WebSocket Connections',
     long_description=read('README.md'),
-    author='Stephan Jaekel, Norman Rusch',
+    author='Moccu GmbH & Co. KG',
     author_email='info@moccu.com',
     url='https://github.com/moccu/django-omnibus/',
     packages=find_packages(exclude=[
