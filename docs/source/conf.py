@@ -9,7 +9,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = u'django-omnibus'
-copyright = u'2014, Stephan Jaekel, Norman Rusch'
+copyright = u'2014, Moccu GmbH & Co. KG'
 
 dist = pkg_resources.get_distribution('django_omnibus')
 version = dist.version
