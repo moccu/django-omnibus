@@ -82,7 +82,7 @@ class PyTest(TestCommand):
 
 setup(
     name='django-omnibus',
-    version='0.1.0',
+    version='0.2.0',
     description='Django/JavaScript WebSocket Connections',
     long_description=read('README.md'),
     author='Moccu GmbH & Co. KG',
