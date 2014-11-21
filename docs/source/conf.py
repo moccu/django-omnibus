@@ -39,16 +39,16 @@ latex_elements = {
 }
 latex_documents = [(
     'index', 'django-omnibus.tex', u'django-omnibus Documentation',
-    'Stephan Jaekel, Norman Rusch', 'manual'
+    'Moccu GmbH & Co. KG', 'manual'
 )]
 
 man_pages = [(
     'index', 'django-omnibus', u'django-omnibus Documentation',
-    ['Stephan Jaekel, Norman Rusch'], 1
+    ['Moccu GmbH & Co. KG'], 1
 )]
 
 texinfo_documents = [(
     'index', 'django-omnibus', u'django-omnibus Documentation',
-    'Stephan Jaekel, Norman Rusch', 'django-omnibus',
+    'Moccu GmbH & Co. KG', 'django-omnibus',
     'Django/JavaScript WebSocket Connections', 'Miscellaneous'
 )]
