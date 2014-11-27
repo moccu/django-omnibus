@@ -157,6 +157,7 @@ class MessageConnection(object):
         `command_subscribe` handles subscribe commands from client connections.
         """
         channel = str(args)
+
         # Ensure the connection isn't already subscribed and is allowed to
         # subscribe.
         if (

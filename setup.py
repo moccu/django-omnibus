@@ -17,6 +17,7 @@ test_requires = [
     'pytest-flakes>=0.2',
     'pytest-pep8>=1.0.5',
     'pytest-django>=2.6',
+    'ws4py==0.3.4',
     'mock==1.0.1',
     'pep8==1.4.6'
 ]

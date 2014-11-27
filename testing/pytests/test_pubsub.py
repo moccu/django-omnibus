@@ -255,7 +255,7 @@ class TestPubSub:
 
 class TestRealPubSub:
 
-    def test_basic_pubsub(self, settings):
+    def test_basic_pubsub(self):
         bus = PubSub()
 
         # Enable director to allow receiving messages
@@ -273,6 +273,7 @@ class TestRealPubSub:
             api.publish('channel', 'type', {'test': 'works!'})
 
         subscriber = bus.get_subscriber(callback)
+
         assert bus.subscribe(subscriber, 'channel')
 
         proc = multiprocessing.Process(target=send_message)
@@ -281,4 +282,7 @@ class TestRealPubSub:
         bus.loop.start()
 
         proc.join()
-        assert len(messages)
+
+        assert messages == [
+            ['channel:{"type": "type", "sender": null, "payload": {"test": "works!"}}']
+        ]

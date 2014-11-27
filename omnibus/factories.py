@@ -1,7 +1,13 @@
+import logging
+
 from tornado import web
 
+from .pubsub import PubSub
 from .connection import MessageConnection
-from .settings import SERVER_BASE_URL
+from .settings import SERVER_BASE_URL, DIRECTOR_ENABLED, FORWARDER_ENABLED
+
+
+logger = logging.getLogger(__name__)
 
 
 def noopauthenticator_factory():
@@ -73,3 +79,16 @@ def sockjs_webapp_factory(connection):
     from sockjs.tornado import SockJSRouter
 
     return web.Application(SockJSRouter(connection, SERVER_BASE_URL).urls)
+
+
+def pubsub_factory():
+    pubsub = PubSub()
+
+    if DIRECTOR_ENABLED:
+        logger.info('Starting director.')
+        pubsub.init_director()
+    if FORWARDER_ENABLED:
+        logger.info('Starting forwarder.')
+        pubsub.init_forwarder()
+
+    return pubsub

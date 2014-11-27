@@ -35,3 +35,8 @@ CONNECTION_FACTORY = getattr(
     'OMNIBUS_CONNECTION_FACTORY',
     'omnibus.factories.websocket_connection_factory'
 )
+PUBSUB_FACTORY = getattr(
+    settings,
+    'OMNIBUS_PUBSUB_FACTORY',
+    'omnibus.factories.pubsub_factory'
+)
