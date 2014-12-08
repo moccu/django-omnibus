@@ -23,9 +23,9 @@ class WebsocketClient(TornadoWebSocketClient):
             self.send('!subscribe:channel')
         elif type == '!subscribe' and json.loads(payload).get('success', False):
             self.send('channel:{"type": "type", "sender": null, "payload": {"test": "works!"}}')
-            time.sleep(.1)
+            time.sleep(.2)
             self.send('channel:{"type": "type", "sender": null, "payload": {"test": "works2!"}}')
-            time.sleep(.1)
+            time.sleep(.2)
             self.close()
 
     def closed(self, code, reason=None):
