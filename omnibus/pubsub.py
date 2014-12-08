@@ -234,3 +234,5 @@ class PubSub(object):
         for bridge in self.bridges:
             for socket in self.bridges[bridge].values():
                 socket.close()
+
+        self.context.terminate()
