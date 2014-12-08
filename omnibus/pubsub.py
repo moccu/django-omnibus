@@ -142,6 +142,7 @@ class PubSub(object):
         try:
             subscriber_socket = subscriber.socket
             subscriber.close()
+            subscriber_socket.setsockopt(zmq.LINGER, 0)
             subscriber_socket.close()
         except ZMQError as exc:
             raise ex.OmnibusSubscriberException(exc)
@@ -230,8 +231,11 @@ class PubSub(object):
         return pub_forwarder, sub_forwarder
 
     def shutdown(self):
+        print('SHUTDOWN')
+
         for bridge in self.bridges:
             for socket in self.bridges[bridge].values():
+                socket.setsockopt(zmq.LINGER, 0)
                 socket.close()
 
         self.context.terminate()
