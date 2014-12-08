@@ -1,4 +1,3 @@
-import time
 import json
 import logging
 
@@ -63,7 +62,7 @@ class PubSub(object):
                 raise ex.OmnibusException(exc)
 
             # Remember connection in central dict.
-            self.connections[(mode, address, bind)] = connection
+            self.connections[key] = connection
 
         # Return the requested connection.
         return connection
