@@ -18,7 +18,9 @@ def spawn_omnibusd():
     webapp_factory = import_by_path(WEBAPP_FACTORY)
 
     # Create app and listen on SEVER_PORT
-    app = webapp_factory(connection_factory(authenticator_factory(), pubsub_factory()))
+    pubsub = pubsub_factory()
+
+    app = webapp_factory(connection_factory(authenticator_factory(), pubsub))
     app.listen(SERVER_PORT)
 
     loop = ioloop.IOLoop().instance()
@@ -27,4 +29,5 @@ def spawn_omnibusd():
         loop.start()
     except KeyboardInterrupt:
         logger.info('Received KeyboardInterrupt, stopping omnibusd.')
+        pubsub.shutdown()
         loop.stop()

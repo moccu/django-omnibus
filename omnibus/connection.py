@@ -36,6 +36,7 @@ class MessageConnection(object):
     def on_close(self):
         self.log('debug', 'CON: Disconnecting..')
         self.close_connection()
+        self.pubsub.shutdown()
         self.log('info', 'CON: Disconnected.')
 
     def on_error(self, exception):

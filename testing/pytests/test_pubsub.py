@@ -20,6 +20,9 @@ class TestPubSub:
         self.pubsub = PubSub()
         self.context = cm.return_value
 
+    def teardown(self):
+        self.pubsub.shutdown()
+
     def test_init(self):
         assert isinstance(self.pubsub.context, mock.Mock)
         assert self.pubsub.connections == {}
@@ -265,9 +268,12 @@ class TestRealPubSub:
 
         def callback(msg):
             messages.append(msg)
+            bus.close_subscriber(subscriber)
+            bus.shutdown()
             bus.loop.stop()
 
         def send_message():
+            time.sleep(1)
             api.publish('channel', 'type', {'test': 'works!'})
             time.sleep(1)
             api.publish('channel', 'type', {'test': 'works!'})

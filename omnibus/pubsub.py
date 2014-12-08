@@ -1,3 +1,4 @@
+import time
 import json
 import logging
 
@@ -47,8 +48,9 @@ class PubSub(object):
     def get_connection(self, mode, address, bind=False):
         # Lets see if we have a connection to the address already (also respect
         # if we should bind or connect and the zmq socket mode)
-        connection = self.connections.setdefault(
-            mode, {}).setdefault(address, {}).get(bind, None)
+
+        key = (mode, address, bind)
+        connection = self.connections.get(key, None)
 
         if connection is None:
             try:
@@ -61,7 +63,7 @@ class PubSub(object):
                 raise ex.OmnibusException(e)
 
             # Remember connection in central dict.
-            self.connections[mode][address][bind] = connection
+            self.connections[(mode, address, bind)] = connection
 
         # Return the requested connection.
         return connection
@@ -185,8 +187,8 @@ class PubSub(object):
         assert in_mode in (self.BIND, self.CONNECT), 'Invalid in_mode'
         assert out_mode in (self.BIND, self.CONNECT), 'Invalid out_mode'
 
-        instances = self.bridges.setdefault(in_address, {}).setdefault(
-            in_mode, {}).setdefault(out_address, {}).get(out_mode, None)
+        key = (in_address, in_mode, out_address, out_mode)
+        instances = self.bridges.get(key, None)
 
         if instances is None:
             instances = {}
@@ -212,7 +214,7 @@ class PubSub(object):
             except ZMQError as e:
                 raise ex.OmnibusException(e)
 
-            self.bridges[in_address][in_mode][out_address][out_mode] = instances
+            self.bridges[key] = instances
 
         return instances
 
@@ -227,3 +229,8 @@ class PubSub(object):
             self.BIND, PUBLISHER_ADDRESS, self.CONNECT, DIRECTOR_PUBLISHER_ADDRESS)
 
         return pub_forwarder, sub_forwarder
+
+    def shutdown(self):
+        for bridge in self.bridges:
+            for socket in self.bridges[bridge].values():
+                socket.close()
