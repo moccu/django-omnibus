@@ -23,8 +23,8 @@ test_requires = [
 
 install_requires = [
     'Django>=1.4',
-    'pyzmq==14.1.1',
-    'tornado==3.1.1',
+    'pyzmq==14.4.1',
+    'tornado==4.0.2',
     'sockjs-tornado>=1.0.0',
 ]
 

@@ -39,6 +39,10 @@ def websocket_connection_factory(auth_class, pubsub_instance):
         authenticator_class = auth_class
         pubsub = pubsub_instance
 
+        def check_origin(self, origin):
+            # TODO: This is the Tornado 3.x default, find a better alternative.
+            return True
+
         def open(self):
             self.on_open(None)
 

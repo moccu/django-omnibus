@@ -87,6 +87,7 @@ class PubSub(object):
         `publish` is a highlevel method to publish stuff. It handles the json
         converting and ensures the payload has the correct data type.
         """
+        print('PUBLISH', channel, payload_type, payload, sender)
         if payload is None:
             payload = {}
 
@@ -108,8 +109,8 @@ class PubSub(object):
                     'payload': payload
                 }, cls=DjangoJSONEncoder)
             ))
-        except (TypeError, ValueError) as e:
-            raise ex.OmnibusDataException(e)
+        except (TypeError, ValueError) as exc:
+            raise ex.OmnibusDataException(exc)
 
     # SUBSCRIBING ------------------------------------------------------------
 
@@ -142,7 +143,7 @@ class PubSub(object):
         try:
             subscriber_socket = subscriber.socket
             subscriber.close()
-            subscriber_socket.setsockopt(zmq.LINGER, 0)
+            # subscriber_socket.setsockopt(zmq.LINGER, 0)
             subscriber_socket.close()
         except ZMQError as exc:
             raise ex.OmnibusSubscriberException(exc)
@@ -231,11 +232,10 @@ class PubSub(object):
         return pub_forwarder, sub_forwarder
 
     def shutdown(self):
-        print('SHUTDOWN')
-
         for bridge in self.bridges:
             for socket in self.bridges[bridge].values():
-                socket.setsockopt(zmq.LINGER, 0)
+                # socket.setsockopt(zmq.LINGER, 0)
                 socket.close()
 
-        self.context.terminate()
+        self.context.destroy()
+        assert self.context.closed

@@ -2,6 +2,7 @@ import time
 import json
 import multiprocessing
 
+import pytest
 from ws4py.client.tornadoclient import TornadoWebSocketClient
 
 from omnibus.daemon import spawn_omnibusd
@@ -32,6 +33,7 @@ class WebsocketClient(TornadoWebSocketClient):
         self.io_loop.stop()
 
 
+@pytest.mark.parametrize('run', [1, 2])
 class TestOmnibusD:
     def setup(self):
         self.process = multiprocessing.Process(target=spawn_omnibusd)
@@ -44,7 +46,7 @@ class TestOmnibusD:
         assert self.process.is_alive()
         self.process.terminate()
 
-    def test_simple(self):
+    def test_simple(self, run):
         print('initialize pubsub')
         bus = PubSub()
 
