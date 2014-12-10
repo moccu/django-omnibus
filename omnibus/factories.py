@@ -85,8 +85,8 @@ def sockjs_webapp_factory(connection):
     return web.Application(SockJSRouter(connection, SERVER_BASE_URL).urls)
 
 
-def pubsub_factory():
-    pubsub = PubSub()
+def pubsub_factory(ioloop=None):
+    pubsub = PubSub(ioloop)
 
     if DIRECTOR_ENABLED:
         logger.info('Starting director.')

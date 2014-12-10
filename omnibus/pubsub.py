@@ -29,11 +29,11 @@ class PubSub(object):
     BIND = 'bind'
     CONNECT = 'connect'
 
-    ioloop_installed = False
     connections = None
     bridges = None
 
     def __init__(self, loop=None):
+        print('PUBSUB INIT', loop)
         self.context = zmq.Context()
         self.connections = {}
         self.bridges = {}
