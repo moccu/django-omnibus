@@ -42,7 +42,7 @@ SockJS
 ``````
 
 SockJS can be used as alternative transport implementation. It delivers the
-same API as the browsers standart Web Websockets.
+same API as the browsers standard Web Websockets.
 
 .. code-block:: html
 
