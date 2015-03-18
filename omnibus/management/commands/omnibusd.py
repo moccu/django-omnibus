@@ -1,7 +1,12 @@
 import logging
 
 from django.core.management.base import BaseCommand
-from django.utils.module_loading import import_by_path
+
+try:
+    from django.utils.module_loading import import_string
+except ImportError:
+    from django.utils.module_loading import import_by_path as import_string
+
 from tornado import ioloop
 
 from ...pubsub import PubSub
@@ -27,9 +32,9 @@ class Command(BaseCommand):
             pubsub.init_forwarder()
 
         # Get factories for connection and tornado webapp.
-        authenticator_factory = import_by_path(AUTHENTICATOR_FACTORY)
-        connection_factory = import_by_path(CONNECTION_FACTORY)
-        webapp_factory = import_by_path(WEBAPP_FACTORY)
+        authenticator_factory = import_string(AUTHENTICATOR_FACTORY)
+        connection_factory = import_string(CONNECTION_FACTORY)
+        webapp_factory = import_string(WEBAPP_FACTORY)
 
         # Create app and listen on SEVER_PORT
         app = webapp_factory(connection_factory(authenticator_factory(), pubsub))
